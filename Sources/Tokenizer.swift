@@ -32,7 +32,7 @@ public enum Token {
 	// Non-alphanum characters
 	case marker(String)
 	// tabs, whitespaces, and etc.
-	case whitespace
+	case whitespace(String)
 	// important so not included in .whitespace
 	case newline
 }
@@ -63,7 +63,7 @@ public struct Tokenizer {
 		self.cur = self.text.startIndex
 	}
 	
-	public func next() -> Token? {
+	public mutating func next() -> Token? {
 		guard hasNext() else {
 			return nil
 		}
@@ -89,6 +89,15 @@ public struct Tokenizer {
 
 	/// Get next token
 	mutating func glob() -> Token {
-		
+		let c = currentCharacter()
+
+		if c.isWs() {
+			let start = cur
+			while hasNext() && currentCharacter().isWs() {
+				cur = self.text.index(after: cur)
+			}
+			
+		}
 	}
+
 }

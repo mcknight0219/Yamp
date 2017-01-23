@@ -30,4 +30,14 @@ extension String {
 			return self.characters.count
 		}
 	}
+
+	/// If string is whitespaces or tabs
+	func isWs() -> Bool {
+		for c in self {
+			if c != " " && c != "\t" {
+				return false
+			}
+		}
+		return true
+	}
 }
