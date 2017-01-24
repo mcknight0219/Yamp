@@ -25,6 +25,7 @@
 import Foundation
 
 extension String {
+    /// The length of string
 	var length: Int {
 		get {
 			return self.characters.count
@@ -33,11 +34,33 @@ extension String {
 
 	/// If string is whitespaces or tabs
 	func isWs() -> Bool {
-		for c in self {
+        guard !self.isEmpty else { return false }
+		for c in self.characters {
 			if c != " " && c != "\t" {
 				return false
 			}
 		}
 		return true
 	}
+    
+    /// Get substring with from and to parameter
+    ///
+    /// - Parameters:
+    ///     = from: start index
+    ///     = to:   end index
+    func substring(from: String.Index, to: String.Index) -> String? {
+        guard distance(from: from, to: to) <= length else {
+            return nil
+        }
+        
+        guard from <= self.endIndex && to >= self.startIndex else {
+            return nil
+        }
+        
+        if from == to && to == self.endIndex {
+            return nil
+        }
+        
+        return self.substring(with: Range<String.Index>(uncheckedBounds: (from, to)))
+    }
 }

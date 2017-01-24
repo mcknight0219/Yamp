@@ -63,6 +63,8 @@ public struct Tokenizer {
 		self.cur = self.text.startIndex
 	}
 	
+    /// Return the next token
+    ///
 	public mutating func next() -> Token? {
 		guard hasNext() else {
 			return nil
@@ -71,18 +73,22 @@ public struct Tokenizer {
 		return glob()
 	}
 
+    /// If tokenizer has reached the end
+    ///
 	public func hasNext() -> Bool {
 		return self.cur < self.text.endIndex
 	}
 
-	public func rewind() -> Void {
-
+    /// Reset the cur to starIndex
+	public mutating func rewind() -> Void {
+        self.cur = self.text.startIndex
 	}
 
 
-	/// Implementation.
-	/// Alwasy assume index is within range.
-
+    // MARK: Implementation
+    
+	/// Return character under current cursor
+    /// Note: Alwasy assume index is within range.
 	func currentCharacter() -> String {
 		return String(self.text[self.cur])
 	}
@@ -96,8 +102,16 @@ public struct Tokenizer {
 			while hasNext() && currentCharacter().isWs() {
 				cur = self.text.index(after: cur)
 			}
-			
+            return .whitespace(self.text.substring(from: start, to: cur)!)
 		}
+        
+        
+        if c == "\n" {
+            // glob as many new line as possible
+            
+        }
+        
+        return .newline
 	}
 
 }
